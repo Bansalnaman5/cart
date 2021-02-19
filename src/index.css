@@ -11,9 +11,12 @@ body {
   display: inline-flex;
   margin: 20px 10px;
 }
-
+.cart-item .left-block{
+  border: 1px dotted blue;
+}
 .cart-item .right-block{
   padding: 0px 20px;
+  border: 1px dotted blue;
 }
 
 .cart-item-actions{
@@ -25,6 +28,6 @@ body {
   width: 25px;
   margin-right: 10px;
 }
-.action-icons :hover{
+.action-icons:hover{
   cursor: pointer;
 }
