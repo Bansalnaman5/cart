@@ -1,15 +1,6 @@
 import React from 'react'
 
 class CartItem extends React.Component{
-    constructor(){
-        super();
-        this.state={
-            price:999,
-            qty:1,
-            product:"Phone",
-            img:"https://boip.in/31997-thickbox_default/oneplus-6-8gb-128gb-refurbished-very-good.jpg"
-        };
-    }
     IncreaseQuantity(){
         this.setState({
             qty:this.state.qty+1
@@ -24,16 +15,16 @@ class CartItem extends React.Component{
         }
     }
     render(){
-        const {price,qty,product,img}=this.state;
+        const {price,qty,product,img}=this.props.product;
         return(
             <div className='cart-item'>
                 <div className='left-block'>
-                    <img src ={this.state.img} style={styles.image} />
+                    <img src ={img} style={styles.image} />
                 </div>
                 <div className='right-block'>
-                    <div style={{fontSize:25}}>{this.state.product}</div>
+                    <div style={{fontSize:25}}>{product}</div>
                     <div style={{color:'#178907'}}>{price}</div>
-                    <div style={{color:'#2598'}}>{this.state.qty}</div>
+                    <div style={{color:'#2598'}}>{qty}</div>
                     <div className="cart-item-actions">
                         {/* button for actions */}
                         <img onClick={this.IncreaseQuantity.bind(this)} alt="increase" className='action-icons' src="https://www.flaticon.com/svg/vstatic/svg/1828/1828926.svg?token=exp=1613628378~hmac=558a2cfb477aed6db5812174926361cc"/>
