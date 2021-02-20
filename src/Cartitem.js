@@ -1,8 +1,7 @@
 import React from 'react'
 
-class CartItem extends React.Component{
-    render(){
-        const {price,qty,product,img}=this.props.product;
+const CartItem =(props)=>{
+        const {price,qty,product,img}=props.product;
         return(
             <div className='cart-item'>
                 <div className='left-block'>
@@ -14,15 +13,15 @@ class CartItem extends React.Component{
                     <div style={{color:'#2598'}}>{qty}</div>
                     <div className="cart-item-actions">
                         {/* button for actions */}
-                        <img onClick={()=>this.props.increaseQuantity(this.props.product)} alt="increase" className='action-icons' src="https://www.flaticon.com/svg/vstatic/svg/1828/1828926.svg?token=exp=1613628378~hmac=558a2cfb477aed6db5812174926361cc"/>
-                        <img onClick={()=>this.props.decreaseQuantity(this.props.product)} alt="decrease" className='action-icons' src="https://www.flaticon.com/svg/vstatic/svg/992/992683.svg?token=exp=1613628408~hmac=f5225ae781bdf0fb4f077eebfb6b11d4"/>
-                        <img onClick={()=>this.props.delelteproduct(this.props.product)} alt="delete" className='action-icons' src="https://www.flaticon.com/svg/vstatic/svg/1214/1214428.svg?token=exp=1613628202~hmac=eabfc3ff0609fab35b865fdcab46f81f"/>
+                        <img onClick={()=>props.increaseQuantity(props.product)} alt="increase" className='action-icons' src="https://www.flaticon.com/svg/vstatic/svg/1828/1828926.svg?token=exp=1613628378~hmac=558a2cfb477aed6db5812174926361cc"/>
+                        <img onClick={()=>props.decreaseQuantity(props.product)} alt="decrease" className='action-icons' src="https://www.flaticon.com/svg/vstatic/svg/992/992683.svg?token=exp=1613628408~hmac=f5225ae781bdf0fb4f077eebfb6b11d4"/>
+                        <img onClick={()=>props.delelteproduct(props.product)} alt="delete" className='action-icons' src="https://www.flaticon.com/svg/vstatic/svg/1214/1214428.svg?token=exp=1613628202~hmac=eabfc3ff0609fab35b865fdcab46f81f"/>
                     </div>
                 </div>
             </div>
         );
     }
-}
+
 
 const styles={
     image:{
