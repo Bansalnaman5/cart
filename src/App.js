@@ -30,51 +30,85 @@ class App extends React.Component {
               //     img:"https://cdn.mos.cms.futurecdn.net/vEcELHdn998wRTcCzqV5m9.jpg",
               //     id:3
               // }
-          ]
-      }            
+          ],
+          loading:true
+      }       
+      this.prod=firebase.firestore().collection('products');  
   }
 
   componentDidMount(){
 
-    firebase.firestore().collection('products').get()
-    .then((snapshot)=>{
+    // firebase.firestore().collection('products').get()
+    // .then((snapshot)=>{
+    //   const products=snapshot.docs.map((doc)=>{
+    //     const data=doc.data();
+    //     data['id']=doc.id;
+    //     return data;
+    //   })
+    //   this.setState({
+    //     products:products,
+    //     loading:false
+    //   })
+    // })
+
+    this.prod
+    .onSnapshot((snapshot)=>{
       const products=snapshot.docs.map((doc)=>{
         const data=doc.data();
         data['id']=doc.id;
         return data;
       })
       this.setState({
-        products:products
+        products:products,
+        loading:false
       })
     })
   }
 
   handelInceaseQuantitty=(product)=>{
-      const {products}=this.state;
-      const index=products.indexOf(product);
-      products[index].qty+=1;
+      // const {products}=this.state;
+      // const index=products.indexOf(product);
+      // products[index].qty+=1;
 
-      this.setState({
-          products:products
+      // this.setState({
+      //     products:products
+      // })
+      const docref=this.prod.doc(product.id);
+      docref.update({
+        qty:product.qty+1
+      })
+      .then(()=>{
+        console.log("document updtaed succesfully!!")
       })
   }
   handelDecreaseProduct=(product)=>{
-      const {products}=this.state;
-      const index=products.indexOf(product);
-      if(products[index].qty>1){
+      // const {products}=this.state;
+      // const index=products.indexOf(product);
+      // if(products[index].qty>1){
 
-          products[index].qty-=1;
-          this.setState({
-              products:products
-          })
+      //     products[index].qty-=1;
+      //     this.setState({
+      //         products:products
+      //     })
+      // }
+      const docref=this.prod.doc(product.id);
+      if(product.qty>1){
+        docref.update({
+          qty:product.qty-1
+        })
       }
   }
   handelDeleteProduct=(product)=>{
-      const {products}=this.state;
-      const index=products.indexOf(product);
-      products.splice(index,1);
-      this.setState({
-          products:products
+      // const {products}=this.state;
+      // const index=products.indexOf(product);
+      // products.splice(index,1);
+      // this.setState({
+      //     products:products
+      // })
+      const docref=this.prod.doc(product.id);
+      docref.delete()
+      .then(()=>{
+        console.log("product delted successfully")
       })
   }
   getProductcount=()=>{
@@ -94,16 +128,31 @@ class App extends React.Component {
       })
     return tot;
   }
+  addProduct=()=>{
+    this.prod.add({
+      img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5GGUgQwhQ1eURz9UWITuxdeYa_iXnbPm6klGBQklIMixc8Y9Vcyko48zxGpVSawDHdasd3OM&usqp=CAc",
+      qty:1,
+      price:54600,
+      product:'i Pad'
+    }).then((ref)=>{
+      console.log('product has been added succesfully :',ref);
+    })
+    .catch((err)=>{
+      console.log("Aborting error occured :",err);
+    })
+  }
     render(){
-      const {products}=this.state;
+      const {products ,loading}=this.state;
       return (
         <div className="App">
         <Navbar itemcount={this.getProductcount()}/>
+        <button onClick={this.addProduct} style={{ padding:20,fontSize:20,marginLeft:10 }} >Add Product</button>
         <Cart products={products}
         increaseQuantity={this.handelInceaseQuantitty} 
         decreaseQuantity={this.handelDecreaseProduct}  
         delelteproduct={this.handelDeleteProduct}
         />
+        {loading && <h1>Loading Products ...</h1>}
         <div>TOTAL : {this.getCartTotal()}</div>
       </div>
   
